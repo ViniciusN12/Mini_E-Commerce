@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Comprar Produto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div th:replace="fragments/header :: header"></div>
+
+  <div class="max-w-2xl mx-auto p-6 mt-8">
+    <div class="bg-white p-6 rounded shadow">
+      <h1 class="text-xl font-bold mb-4">Comprar <span th:text="${produto.nome}">Produto</span></h1>
+
+      <form th:action="@{/comprar}" method="post" class="space-y-4">
+        <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" name="produtoId" th:value="${produto.id}" />
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Quantidade</label>
+          <input name="quantidade" type="number" min="1" th:value="${compraRequest.quantidade}" required class="bg-gray-100 mt-1 block w-32 rounded border-gray-300" />
+        </div>
+
+        <div>
+          <p class="text-sm text-gray-600">Preço unitário: <strong th:text="${#numbers.formatDecimal(produto.preco,1,2)}">0.00</strong></p>
+          <p class="text-sm text-gray-600">Estoque disponível: <strong th:text="${produto.estoque}">0</strong></p>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <a href="/" class="text-gray-600 hover:underline">Voltar</a>
+          <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Comprar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

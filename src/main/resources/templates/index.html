@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Produtos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div th:replace="fragments/header :: header"></div>
+
+  <div class="max-w-7xl mx-auto p-6">
+    <section class="mb-6">
+      <h2 class="text-3xl font-extrabold text-gray-900">Nossos Produtos</h2>
+      <p class="mt-2 text-gray-600">Explore os produtos disponíveis — qualidade e bons preços.</p>
+    </section>
+
+    <section>
+      <div th:if="${success}" class="mb-4 p-4 bg-green-100 text-green-800 rounded">[[${success}]]</div>
+
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div th:each="produto : ${produtos}" class="bg-white rounded-lg shadow p-4 flex flex-col">
+          <div class="h-40 bg-gray-100 rounded-md mb-4 flex items-center justify-center text-gray-400">Imagem</div>
+          <h3 class="text-lg font-semibold text-gray-900" th:text="${produto.nome}">Nome do produto</h3>
+          <p class="mt-2 text-sm text-gray-600 truncate" th:text="${produto.descricao}">Descrição do produto</p>
+
+          <div class="mt-4 flex items-center justify-between">
+            <div>
+              <p class="text-xl font-bold text-indigo-600" th:text="${#numbers.formatDecimal(produto.preco,1,2)}">0.00</p>
+              <p class="text-sm text-gray-500">Estoque: <span th:text="${produto.estoque}">0</span></p>
+            </div>
+            <div class="flex items-center gap-2">
+              <a th:href="@{'/comprar/' + ${produto.id}}" class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700">Comprar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

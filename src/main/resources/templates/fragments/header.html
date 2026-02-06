@@ -1,0 +1,30 @@
+<div th:fragment="header" xmlns:th="http://www.thymeleaf.org">
+  <!-- page wrapper ensures footer is pushed to bottom when content is short -->
+  <div class="min-h-screen flex flex-col">
+    <header class="bg-white shadow">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <h1><a th:href="@{/}" class="text-2xl font-bold text-indigo-600">Mini E‑Commerce</a></h1>
+        <nav class="space-x-4 flex items-center">
+          <a th:if="${isAdmin}" th:href="@{/produtosAdmin}" class="text-indigo-600 hover:underline">Admin Dashboard</a>
+
+          <!-- show login/register when anonymous -->
+          <div th:if="${currentUser == null}" class="ml-4">
+            <a th:href="@{/login}" class="text-gray-700 hover:text-gray-900 mr-4">Login</a>
+            <a th:href="@{/register}" class="text-gray-700 hover:text-gray-900">Registrar</a>
+          </div>
+
+          <!-- show username and logout when authenticated -->
+          <div th:if="${currentUser != null}" class="ml-4 flex items-center">
+            <span class="text-gray-700 mr-4">Olá, <strong th:text="${currentUser}">User</strong></span>
+            <form th:action="@{/logout}" method="post" class="inline">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="text-red-600 hover:underline">Sair</button>
+            </form>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- main content area that will grow to push footer down -->
+    <main class="flex-1">
+      <!-- content starts here (closed in footer fragment) -->
